@@ -2,27 +2,19 @@ import { useNavigate } from "react-router-dom";
 import { Search, Package } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-
 const Index = () => {
   const navigate = useNavigate();
-
-  return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-secondary/20">
+  return <div className="min-h-screen bg-gradient-to-b from-background to-secondary/20">
       {/* Hero Section */}
       <div className="container max-w-5xl py-16 md:py-24">
         <div className="text-center space-y-6 mb-12">
-          <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-sm font-medium text-primary">
-            <Package className="h-4 w-4" />
-            Free Campus Lost & Found
-          </div>
+          
           
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
-            Welcome to <span className="text-primary">CampusBin</span>
+            Welcome to <span className="text-primary">DYPIU CampusBin</span>
           </h1>
           
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-            A simple platform to help students recover lost items and return found belongings on campus.
-          </p>
+          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">Recover your lost item here.</p>
         </div>
 
         {/* CTA Cards */}
@@ -36,11 +28,7 @@ const Index = () => {
               <p className="text-muted-foreground">
                 List an item you found on campus so the owner can claim it.
               </p>
-              <Button 
-                size="lg" 
-                className="w-full"
-                onClick={() => navigate("/list")}
-              >
+              <Button size="lg" className="w-full" onClick={() => navigate("/list")}>
                 List Found Item
               </Button>
             </CardContent>
@@ -52,15 +40,8 @@ const Index = () => {
                 <Search className="h-8 w-8 text-accent" />
               </div>
               <h2 className="text-2xl font-semibold">Lost Something?</h2>
-              <p className="text-muted-foreground">
-                Search through found items to see if your belongings were turned in.
-              </p>
-              <Button 
-                size="lg" 
-                variant="outline"
-                className="w-full border-2"
-                onClick={() => navigate("/search")}
-              >
+              <p className="text-muted-foreground">Search through the found items to check if your belongings have been turned in.</p>
+              <Button size="lg" variant="outline" className="w-full border-2" onClick={() => navigate("/search")}>
                 Search for Items
               </Button>
             </CardContent>
@@ -104,8 +85,6 @@ const Index = () => {
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default Index;
