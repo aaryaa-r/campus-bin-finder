@@ -1,17 +1,78 @@
 import { useNavigate } from "react-router-dom";
-import { Search, Package } from "lucide-react";
+import { Search, Package, LogIn, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { useState, useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { Session } from "@supabase/supabase-js";
 import dypiuLogo from "@/assets/dypiu_logo.png";
 import campusbinLogo from "@/assets/campusbin_logo.png";
 const Index = () => {
   const navigate = useNavigate();
+  const [session, setSession] = useState<Session | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      if (session) {
+        checkAdminStatus(session.user.id);
+      }
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+      if (session) {
+        checkAdminStatus(session.user.id);
+      } else {
+        setIsAdmin(false);
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const checkAdminStatus = async (userId: string) => {
+    const { data } = await supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", userId)
+      .eq("role", "admin")
+      .single();
+    
+    setIsAdmin(!!data);
+  };
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+  };
+
   return <div className="min-h-screen bg-gradient-to-b from-background to-secondary/20">
       {/* Logo Header */}
       <div className="container max-w-7xl pt-6">
         <div className="flex items-center justify-between">
           <img src={dypiuLogo} alt="DY Patil International University" className="h-12 md:h-16" />
-          <img src={campusbinLogo} alt="CampusBin" className="h-12 md:h-16" />
+          <div className="flex items-center gap-2">
+            {session ? (
+              <>
+                {isAdmin && (
+                  <Button variant="outline" onClick={() => navigate("/admin")}>
+                    <Shield className="w-4 h-4 mr-2" />
+                    Admin Panel
+                  </Button>
+                )}
+                <Button variant="ghost" onClick={handleLogout}>
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <Button variant="outline" onClick={() => navigate("/auth")}>
+                <LogIn className="w-4 h-4 mr-2" />
+                Login
+              </Button>
+            )}
+            <img src={campusbinLogo} alt="CampusBin" className="h-12 md:h-16" />
+          </div>
         </div>
       </div>
 
