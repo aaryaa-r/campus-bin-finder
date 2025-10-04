@@ -2,14 +2,22 @@ import { useNavigate } from "react-router-dom";
 import { Search, Package } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import dypiuLogo from "@/assets/dypiu_logo.png";
+import campusbinLogo from "@/assets/campusbin_logo.png";
 const Index = () => {
   const navigate = useNavigate();
   return <div className="min-h-screen bg-gradient-to-b from-background to-secondary/20">
+      {/* Logo Header */}
+      <div className="container max-w-7xl pt-6">
+        <div className="flex items-center justify-between">
+          <img src={dypiuLogo} alt="DY Patil International University" className="h-12 md:h-16" />
+          <img src={campusbinLogo} alt="CampusBin" className="h-12 md:h-16" />
+        </div>
+      </div>
+
       {/* Hero Section */}
-      <div className="container max-w-5xl py-16 md:py-24">
+      <div className="container max-w-5xl py-8 md:py-16">
         <div className="text-center space-y-6 mb-12">
-          
-          
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
             Welcome to <span className="text-primary">DYPIU CampusBin</span>
           </h1>
